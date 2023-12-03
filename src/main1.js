@@ -47,7 +47,11 @@ bot.on(message('voice'), async (ctx) => {
     await ctx.reply(code(`Ваш запрос: ${text}`))
 
     await processTextToChat(ctx, text)
+
+    loader.hide();  // Скрыть индикатор загрузки здесь
+
   } catch (e) {
+    loader.hide();  // Также скрыть индикатор загрузки в случае ошибки
     console.log(`Error while voice message`, e.message)
   }
 })
@@ -56,8 +60,13 @@ bot.on(message('text'), async (ctx) => {
   ctx.session ??= INITIAL_SESSION
   try {
     await ctx.reply(code('Сообщение принял. Жду ответ от сервера...'))
+    const loader = new Loader(ctx);
+
+    loader.show();
     await processTextToChat(ctx, ctx.message.text)
+    loader.hide();  // Скрыть индикатор загрузки здесь
   } catch (e) {
+    loader.hide();  // Также скрыть индикатор загрузки в случае ошибки
     console.log(`Error while voice message`, e.message)
   }
 })

@@ -4,3 +4,5 @@ config/production.json
 config/default.json
 google-youtube.json
 .vscode
+voices/
+
