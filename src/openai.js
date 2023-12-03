@@ -21,7 +21,7 @@ class OpenAI {
       const response = await this.openai.createChatCompletion({
         model: 'gpt-4-1106-preview',
         messages,
-        max_tokens: 200, // Ограничение длины ответа
+        max_tokens: 1200, // Ограничение длины ответа
       })
       return response.data.choices[0].message
     } catch (e) {
