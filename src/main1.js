@@ -6,19 +6,33 @@ import { ogg } from './ogg.js'
 import { openai } from './openai.js'
 import { removeFile } from './utils.js'
 import { initCommand, processTextToChat, INITIAL_SESSION } from './logic.js'
+import  Loader  from './loader.js';
 
 const bot = new Telegraf(config.get('TELEGRAM_TOKEN'))
 
 bot.use(session())
 
-bot.command('new', initCommand)
+// 
+bot.command("start", (ctx) => {
+  ctx.reply(
+    "Добро пожаловать в бота. Отправьте тестовое или голосовое сообщение ."
+  );
+});
 
-bot.command('start', initCommand)
+bot.command("new", (ctx) => {
+  ctx.reply(
+    "Добро пожаловать в бота. Отправьте тестовое или голосовое сообщение."
+  );
+});
+
 
 bot.on(message('voice'), async (ctx) => {
   ctx.session ??= INITIAL_SESSION
   try {
-    await ctx.reply(code('Сообщение принял. Жду ответ от сервера...'))
+    await ctx.reply(code('Сообщение принял. Работаю...'))
+    const loader = new Loader(ctx);
+
+    loader.show();
     const link = await ctx.telegram.getFileLink(ctx.message.voice.file_id)
     const userId = String(ctx.message.from.id)
     const oggPath = await ogg.create(link.href, userId)

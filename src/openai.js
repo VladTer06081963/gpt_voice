@@ -19,8 +19,9 @@ class OpenAI {
   async chat(messages) {
     try {
       const response = await this.openai.createChatCompletion({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4-1106-preview',
         messages,
+        max_tokens: 200, // Ограничение длины ответа
       })
       return response.data.choices[0].message
     } catch (e) {
